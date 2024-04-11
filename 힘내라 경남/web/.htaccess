@@ -1,0 +1,12 @@
+Options -Indexes -MultiViews
+
+RewriteEngine On  
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule api/(.*)$ api/api.php?request=$1 [QSA,NC,L] 
+
+RewriteRule ^([^.]+)$ $1.php [NC,L] 

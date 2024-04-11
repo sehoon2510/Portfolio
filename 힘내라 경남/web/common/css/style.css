@@ -1,0 +1,512 @@
+@charset "UTF-8";
+
+* {margin: 0;padding: 0;}
+a {display: block;text-decoration: none;color: #000;}
+input[type="checkbox"] {display: none;}
+
+.link__area {
+    position: fixed;
+    z-index: 99;
+    width: 120px;
+    height: 50px;
+    top: calc(100% - 70px);
+    left: calc(100% - 150px);
+}
+
+.link__area .menu-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #323232;
+    position: relative;
+}
+
+.link__area .menu-icon label, .link__area .menu-icon .icon__area {
+    width: 100%;
+    height: 100%;
+}
+
+.link__area .menu-icon label {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #323232;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.link__area .menu-icon label .bar {
+    display: block;
+    width: 70%;
+    height: 3px;
+    border-radius: 25px;
+    background-color: white;
+}
+
+.link__area .menu-icon .icon__area .icon__item {
+    width: 40px;
+    height: 40px;
+    background-color: #323232;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s;
+}
+
+.link__area .menu-icon .icon__area .icon__item a {
+    width: 100%;
+    height: 100%;
+}
+
+.link__area .menu-icon .icon__area .icon__item a > img {
+    width: 80%;
+}
+
+.link__area .menu-icon .icon__area .icon__item img {
+    width: 100%;
+}
+
+.link__area .menu-icon:nth-child(1) .icon__area .icon__item::after {
+    content: attr(name);
+    width: auto;
+    height: auto;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    color: white;
+    position: absolute;
+    right: 0%;
+    opacity: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid #333;
+    background-color: #323232;
+    transition: all 0.3s;
+}
+
+.link__area .menu-icon:nth-child(1) .icon__area .icon__item:hover::after {
+    right: 120%;
+    opacity: 1;
+}
+
+#menu:checked ~ .link__area .menu-icon:nth-child(1) .icon__area .icon__item:nth-child(1),
+#icon:checked ~ .link__area .menu-icon:nth-child(2) .icon__area .icon__item:nth-child(1) {
+    top: -270%;
+}
+#icon:checked ~ .link__area .menu-icon:nth-child(2) .icon__area .icon__item:nth-child(1) img {
+    animation: Iconevent 5s infinite;
+    animation-delay: -2s;
+}
+#menu:checked ~ .link__area .menu-icon:nth-child(1) .icon__area .icon__item:nth-child(2),
+#icon:checked ~ .link__area .menu-icon:nth-child(2) .icon__area .icon__item:nth-child(2) {
+    top: -170%;
+}
+#icon:checked ~ .link__area .menu-icon:nth-child(2) .icon__area .icon__item:nth-child(2) img {
+    animation: Iconevent 5s infinite;
+    animation-delay: -0.5s;
+}
+#menu:checked ~ .link__area .menu-icon:nth-child(1) .icon__area .icon__item:nth-child(3),
+#icon:checked ~ .link__area .menu-icon:nth-child(2) .icon__area .icon__item:nth-child(3) {
+    top: -70%;
+}
+#icon:checked ~ .link__area .menu-icon:nth-child(2) .icon__area .icon__item:nth-child(3) img {
+    animation: Iconevent 5s infinite;
+    animation-delay: 1.5s;
+}
+
+@keyframes Iconevent {
+    0% {transform: scale(1);}
+    20% {transform: scale(1);}
+    40% {transform: scale(1.2);}
+    60% {transform: scale(1.2);}
+    80% {transform: scale(1);}
+    100% {transform: scale(1);}
+}
+
+header, header > div, footer {
+    width: 100vw;
+    height: 100px;
+    position: fixed;
+    left: 0;
+    z-index: 9;
+}
+
+footer {top: calc(100% - 100px);}
+
+section {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: top/100% url("../../image/photo\ \(1\).jpg");
+}
+
+section > div {
+    width: 100%;
+    height: 100%;
+    background-color: #22222281;
+    backdrop-filter: blur(10px);
+}
+
+.content__card__item {
+    width: calc(100% / 3.2);
+    height: 230px;
+    background-color: #323232;
+}
+
+.content__card__item .image__area, .content__card__item .text__area {
+    width: 50%;
+    height: 100%;
+}
+.content__card__item .image__area .image__item {
+    overflow: hidden;
+    width: 50%;
+    height: 50%;
+}
+
+.content__card__item .image__area .image__item img {
+    width: 200%;
+}
+
+.content__card__item .text__area .card__item__title {
+    width: 100%;
+    height: 70px;    
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.content__card__item .text__area .card__item__content {
+    width: 100%;
+    height: calc(100% - 70px);
+}
+
+.content__card__item .text__area .card__item__content a img {
+    width: 20px;
+    animation: goevent 7s infinite;
+}
+
+@keyframes goevent {
+    0%{transform: rotate(0);}
+    10%{transform: rotate(360deg);}
+    100%{transform: rotate(360deg);}
+}
+
+svg g path, svg .map-item {transition: all 0.2s;}
+svg .map-item:hover path, svg .map-item.check path {fill: rgba(69, 236, 75, 0.6);}
+svg .map-item:hover, svg .map-item.check {
+    transform: translateY(-8px);
+}
+svg .item {visibility: hidden; opacity: 0; transform: translateY(-10px); transition: all 0.3s; pointer-events: none;}
+svg .map-item[name="L018"]:hover ~ .items .item[name="L018"],
+svg .map-item[name="L017"]:hover ~ .items .item[name="L017"],
+svg .map-item[name="L016"]:hover ~ .items .item[name="L016"],
+svg .map-item[name="L015"]:hover ~ .items .item[name="L015"],
+svg .map-item[name="L014"]:hover ~ .items .item[name="L014"],
+svg .map-item[name="L013"]:hover ~ .items .item[name="L013"],
+svg .map-item[name="L012"]:hover ~ .items .item[name="L012"],
+svg .map-item[name="L011"]:hover ~ .items .item[name="L011"],
+svg .map-item[name="L010"]:hover ~ .items .item[name="L010"],
+svg .map-item[name="L009"]:hover ~ .items .item[name="L009"],
+svg .map-item[name="L008"]:hover ~ .items .item[name="L008"],
+svg .map-item[name="L008"].check ~ .items .item[name="L008"],
+svg .map-item[name="L007"]:hover ~ .items .item[name="L007"],
+svg .map-item[name="L006"]:hover ~ .items .item[name="L006"],
+svg .map-item[name="L005"]:hover ~ .items .item[name="L005"],
+svg .map-item[name="L004"]:hover ~ .items .item[name="L004"],
+svg .map-item[name="L003"]:hover ~ .items .item[name="L003"],
+svg .map-item[name="L002"]:hover ~ .items .item[name="L002"],
+svg .map-item[name="L001"]:hover ~ .items .item[name="L001"]
+{visibility: visible; opacity: 1; transform: translateY(0px);}
+
+.game__page .content__card__item {
+    width: 800px;
+    height: 300px;
+}
+
+.game__page .content__card__item .text__area {
+    width: calc(100% - 300px);
+}
+
+.game__page .content__card__item .text__area .card__item__content {
+    font-size: 0.8rem;
+}
+
+.game__page .content__card__item .image__area {
+    width: 300px;
+}
+
+.game__container .game__area {
+    box-sizing: border-box;
+    width: 670px;
+    height: 670px;
+    border: 5px solid #323232;
+    user-select: none;
+}
+
+.game__container .game__area .game__card__item {
+    width: 155px;
+    height: 155px;
+}
+
+.game__container .game__area .game__card__item .game__card {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    position: relative;
+    transition: all 0.3s;
+}
+.game__container .game__area .game__card__item.lose {
+    border: 5px solid red;
+}
+.game__container .game__area .game__card__item.check .game__card, .game__container .game__area .game__card__item.lose .game__card {
+    transform: rotateY(180deg);
+}
+
+.game__container .game__area .game__card__item .game__card > div {
+    width: 100%;
+    height: 100%;
+    background-color: #323232;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+}
+
+.game__container .game__area .game__card__item .game__card .back {
+    z-index: 0;
+}
+
+.game__container .game__area .game__card__item .game__card .on {
+    z-index: -1;
+    transform: rotateY(180deg);
+}
+
+.game__container .game__area .game__card__item .game__card .on .image__area {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.game__container .game__area .game__card__item .game__card .on .image__area img {
+    width: 120%;
+}
+
+.game__container .game__area .game__card__item .game__card .on .text__area {
+    width: 100%;
+    height: 100%;
+    background-color: #22222281;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.stampe__container, .stampe__content {
+    width: 600px;
+    height: 200px;
+    background-color: white;
+}
+
+.stampe__container .stampe__area {
+    width: 175px;
+    height: 175px;
+    box-sizing: border-box;
+    border: 3px solid #222;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.stampe__container .stampe__area .area {
+    width: 100%;
+    height: 100%;
+}
+
+.stampe__container .stampe__area .area .text__area {
+    border-top: 3px solid #222;
+    border-bottom: 3px solid #222;
+    box-sizing: border-box;
+}
+
+.stampe__container .stampe__area .stampe {
+    width: 150%;
+    height: 150%;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 5px solid red;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.stampe__container .stampe__area .stampe .text__area {
+    border-top: 5px solid red;
+    border-bottom: 5px solid red;
+}
+
+.stampe__container .stampe__area .stampe .text__area p {
+    color: red;
+}
+
+.stampe__container .stampe__area.check .stampe {
+    width: 85%;
+    height: 85%;
+    opacity: 1;
+}
+
+.review__page .content__card__item {
+    width: 695px;
+    height: 300px;
+}
+
+.review__page .content__card__item .text__area {
+    width: calc(100% - 300px);
+}
+
+.review__page .content__card__item .text__area .card__item__content {
+    font-size: 0.8rem;
+}
+
+.review__page .content__card__item .image__area {
+    width: 300px;
+}
+
+.review__content {
+    height: 650px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+.review__content::-webkit-scrollbar {
+    display: none;
+}
+
+.review__content .review__item {
+    height: 200px;
+    background-color: white;
+}
+
+.review__content .review__item .image__area {
+    box-sizing: border-box;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #222;
+    overflow: hidden;
+}
+
+.review__content .review__item .image__area img {
+    width: 140%;
+}
+
+.review__content .review__item .review__item__content {
+    width: calc(100% - 180px);
+    height: 150px;
+}
+
+.review__content .review__item .review__item__content .content__header p {
+    color: #a8a8a8;
+    font-size: 0.8rem;
+}
+
+.review__content .review__item .review__item__content .title p:nth-child(1) {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.review__content .review__item .review__item__content .content__section .content__text {
+    height: 60px;
+}
+
+.form {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #22222281;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    transition: all 0.5s;
+}
+
+.form.check {
+    transform: translateY(-10px);
+    opacity: 1;
+    visibility: visible;
+}
+
+.form .form-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 400px;
+    background-color: white;
+    position: relative;
+}
+
+.form .form-header {
+    font-weight: bold;
+    font-size: 1.4rem;
+    height: 75px;
+}
+
+.form .form-section {
+    min-height: calc(400px - 75px - 50px);
+}
+
+.form .form-footer {
+    height: 50px;
+}
+
+.modal textarea {display: block; width: 100%; height: 75px;}
+.modal .starScoreGiveList {width: 100%; height: 40px; user-select: none;}
+.modal .starScoreGiveList .starItem {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+.modal .starScoreGiveList .starItem > div {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 99;
+}
+.modal .starScoreGiveList .starItem > .zore {
+    left: -50%;
+}
+.modal .starScoreGiveList .starItem > .left {
+    left: 0%;
+}
+.modal .starScoreGiveList .starItem > .right {
+    left: 50%;
+}
+
+.modal .starScoreGiveList .starItem > img {
+    width: 100%;
+}
+
+.modal .input-file {
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.modal .input__list input {display: inline-block;}
+
+.modal .input-file::-webkit-scrollbar {display: none;}
