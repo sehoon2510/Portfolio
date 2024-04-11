@@ -1,58 +1,22 @@
-# school
-학교에서의 자습일지
+# 기능반 포트폴리오
+기능반에서 만들었던 다양한 기능대회의 과제들이나 개인 프로젝트, 연습 과제들을 모아놓은 포트폴리오 입니다.
 
-## 깃 베쉬 사용법
-깃 베쉬의 기본 사용방법을 정리했습니다. [참고링크](https://backendcode.tistory.com/165)
+## 기능대회란?
+특별시, 광역시, 도가 주최하고 17개 시·도 기능경기위원회가 주관하는 지역사회의 숙련기술개발 및 기능수준의 향상 도모와 우수한 숙련기술인을 발굴·표창함으로써 사기진작과 근로의욕 고취를 목적으로하는 대회입니다.
+지방, 전국기능대회가 있으며 각 수상마다 다양한 혜택이 있으며 전국 기능경기대회에서 수상시 국제 기능올림픽에 출전할 수 있습니다.
 
-### 기본설정
-깃 베쉬를 사용하기 전 기본설정
-1. 로그인하기
-    + `$ git config --global user.name <유저이름>`
-    + `$ git config --global user.email <유저 이메일>`
-    + 기존에 로그인이 이미 되어있다면, 다음 명령어로 정보를 확인할 수 있다.
-        + `$ git config user.name`
-        + `$ git config user.name`
-2. 폴더 연결 및 기본설정 하기
-    + 로그인정보를 등록했다면, 본인의 기기의 directorie를 선택하고 기본 파일들을 넣어주어야 한다.
-        1. `$ cd <경로>`
-        2. `$ git init`
-    + 다음 순서대로 directorie를 선택하고 명령어를 입력했다면, 파일 탐색기에서 해당 directorie에 들어가 [보기]탭의 [숨긴 항목]를 활성화하면 <.git>이라는 폴더가 나타나면 성공이다.
-3. Repositorie 연결하기
-    + directorie를 연결하고 기본설정을 마쳤다면, github의 파일을 저장할 Repositorie를 연결해야 한다. 그러기 위해 해당 Repositorie의 연결 링크를 가져와야한다. 방법은 다음과 같다.
-        1. github에 로그인 한다.
-        2. 홈에서 [Repositories]탭에 들어간다.
-        3. 연결할 [Repositorie]에 들어간다.
-        4. 중간에 [Code]라는 버튼을 클릭하고 링크를 복사한다.
-    + 다음 순서로 연결 링크를 가져왔다면 명령어를 입력한다.
-        + `$ git remote add origin <LINK>`
-        + 이 명령어를 입력하면 기본 branch가 등록된다.
-4. 안전작업
-    + 기본적으로 [Repositorie] 연결을 완료했다면 바로 작업을 시작해도 되지만, 안전을 위해 이 작업을 해보자
-    + `$ git log`
-        + 이 명령어는 commit을 한 것에 대한 로그를 출력시킨다.
-    + `$ git switch -c <new-branch> <commit-code>`
-        + 이 명령어는 [commit-code]에 해당하는 시점까지의 데이터를 복사해 새로운 내부 branch를 만든다.
-    + `$ git switch <branch-name>`
-        + 이 명령어는 현재 존재하는 branch중 선택되어있는 branch를 바꾼다.
-    + `$ git pull origin <branch>`
-        + 이 명령어는 [Repositorie]에 있는 branch의 데이터를 현재 선택된 directorie애 가져온다.
-    + 이 작업들로 보다 안전하게 github를 관리할 수 있다.
-5. 사용하기
-    + 위의 작업을 다 마쳤다면 이제 작업을 시작하면 된다.
-        + ###### add
-            + 현재 directorie에 새로운 파일이나 폴더가 생성되었을 경우 실행합니다. (필수)
-            + `$ git add < . or FileName>`
-        + ###### commit
-            + 현재까지의 진행상황을 저장합니다. [add]이후에 가능합니다.
-            + `$ git commit -m <msg>` : 현재 진행상황을 저장합니다.
-            + `$ git commit -a` : 선택된 directorie를 새로고침 합니다. [add]가 된 파일만 적용됩니다.
-            + `$ git commit -am <msg>` : 선택된 directorie를 새로고침하고, 저장합니다. [add]가 된 파일만 적용됩니다.
-        + ###### push
-            + [commit]된 정보를 github에 업로드 합니다.
-            + `$ git push origin <branch>`
-            + `$ git push origin <branch1>:<branch2>` : 다른 branch1에 있는 정보를 branch2에 업로드 합니다.
-        + ###### branch
-            + [branch]와 관련된 명령어 입니다.
-            + `$ git branch` : 현재 존재하는 모든 branch 리스트를 출력합니다.
-            + `$ git branch -d <branch>` : branch를 삭제합니다.
+### 기능대회 혜택 정리
+지방기능경기대회
++ 1,2,3위 및 우수상 입상자에게 해당 년도 전국기능경기대회 참가자격 부여
++ 1,2,3위 입상자에게 상장, 메달, 상금 및 해당직종 국가기술자격 기능사 시험 면제
++ 우수상 입상자 및 장려상 수상자에게 상장 수여
 
+## 포트폴리오 바로가기
++ 링크를 클릭하여 포트폴리오를 바로 보실 수 있습니다.
+    1. [2023년 지방기능경기대회 `SKILLS CAMPING`](https://github.com/sehoon2510/Portfolio/tree/master/SkillsCamping)
+    2. [2023년 기능경기대회 `동대문패션광고협회`](https://github.com/sehoon2510/Portfolio/tree/master/%EB%8F%99%EB%8C%80%EB%AC%B8%ED%8C%A8%EC%85%98%EA%B4%91%EA%B3%A0%ED%98%91%ED%9A%8C)
+    3. 2021년 지방기능경기대회 `무형문화재관리원`
+    4. [2020년 전국기능경기대회 `전주독서대전`](https://github.com/sehoon2510/Portfolio/tree/master/%EC%A0%84%EC%A3%BC%EB%8F%85%EC%84%9C%EB%8C%80%EC%A0%84)
+    5. [2020년 지방기능경기대회 `내집꾸미기`](https://github.com/sehoon2510/Portfolio/tree/master/%EB%82%B4%EC%A7%91%EA%BE%B8%EB%AF%B8%EA%B8%B0)
+    6. [2022년 지방기능경기대회 `힘내라 경남`](https://github.com/sehoon2510/Portfolio/tree/master/%ED%9E%98%EB%82%B4%EB%9D%BC%20%EA%B2%BD%EB%82%A8#5-2022%EB%85%84-%EC%A7%80%EB%B0%A9%EA%B8%B0%EB%8A%A5%EA%B2%BD%EA%B8%B0%EB%8C%80%ED%9A%8C-%ED%9E%98%EB%82%B4%EB%9D%BC-%EA%B2%BD%EB%82%A8)
+    
