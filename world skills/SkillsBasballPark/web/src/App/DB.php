@@ -3,8 +3,9 @@
 
     class DB {
         static $conn = null;
-        static function getConnection() {
-            if(self::$conn == null) {
+
+        static function GetConn() {
+            if(self::$conn === null) {
                 self::$conn = new \PDO("mysql:host=localhost;dbname=swjb;charset=utf8mb4", "root", "", [
                     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
                     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
@@ -14,7 +15,7 @@
         }
 
         static function execute($sql, $data = []) {
-            $q = self::getConnection()->prepare($sql);
+            $q = self::GetConn()->prepare($sql);
             $q->execute($data);
             return $q;
         }
@@ -25,17 +26,5 @@
         
         static function fetchAll($sql, $data = []) {
             return self::execute($sql, $data)->fetchAll();
-        }
-
-        static function find($table, $id) {
-            return self::fetch("SELECT * FROM `$table` WHERE id = ?", [$id]);
-        }
-        
-        static function who($user_id) {
-            return self::fetch("SELECT * FROM users WHERE user_id = ?", [$user_id]);
-        }
-
-        static function lastInsertid() {
-            return self::getConnection()->lastInsertid();
         }
     }

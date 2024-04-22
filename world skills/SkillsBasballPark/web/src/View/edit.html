@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./common/fontawesome-free-6.4.0-web/css/all.css">
+    <link rel="stylesheet" href="./common/bootstrap-5.2.0-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./common/css/style.css">
+    <script src="./common/js/jquery-3.7.1.min.js"></script>
+    <style>
+        #header.fileHeader { height: 65px; z-index: 99; }
+        .canvas-bg { background-color: #333; }
+
+        /* 사이드 메뉴 */
+        #aside { max-width: 23%; width: 90px; height: calc(100vh - 65px); position: absolute; top: 65px; left: 0; overflow: hidden; transition: all 0.2s; }
+        #aside.show { width: 23%; }
+        #aside .aside-nav { width: 80px; position: relative; }
+        #aside .aside-nav .item { width: 80px; height: 80px; position: relative; z-index: 99; }
+
+        .area { max-width: 100%; width: 100%; height: calc(100vh - 65px);  margin-left: 70px; position: relative; }
+        .area .canvas { top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute; overflow: hidden; }
+        .textedit, .moveEdit { padding: 5px 10px; border: 2px dashed #ccc; outline: none !important; }
+    </style>
+</head>
+<body>
+    <input type="file" class="d-none" id="file">
+    <div id="header" class="fileHeader bg-blue">
+        <div class="h-100 d-flex">
+            <div class="h-100 d-flex align-items-center justify-content-center px-4 mx-2">
+                <a href="/" class="mb-0 text-white">홈</a>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex w-100 h-100 canvas-bg">
+        <div id="aside" class="">
+            <div class="aside-nav h-100 bg-blue">
+                <div class="item nav-item d-flex flex-column align-items-center justify-content-center text-white" data-id="1">
+                    <i class="fa-solid fa-rotate-right fx-3 mb-1"></i>
+                    <div class="fx-n3">원래대로</div>
+                </div>
+                <div class="item nav-item d-flex flex-column align-items-center justify-content-center text-white" data-id="2">
+                    <label for="file" class="d-flex flex-column align-items-center justify-content-center text-white">
+                        <i class="fa-solid fa-plus fx-3 mb-1"></i>
+                        <div class="fx-n3">추가</div>
+                    </label>
+                </div>
+                <div class="item nav-item d-flex flex-column align-items-center justify-content-center text-white" data-id="3">
+                    <i class="fa-solid fa-trash-can fx-3 mb-1"></i>
+                    <div class="fx-n3">삭제</div>
+                </div>
+                <div class="item nav-item d-flex flex-column align-items-center justify-content-center text-white" data-id="4">
+                    <i class="fa-solid fa-font fx-3 mb-1"></i>
+                    <div class="fx-n3">글상자</div>
+                </div>
+                <div class="item nav-item d-flex flex-column align-items-center justify-content-center text-white" data-id="5">
+                    <i class="fa-solid fa-rotate fx-3 mb-1"></i>
+                    <div class="fx-n3">글상자</div>
+                    <div class="fx-n3">이동 및 회전</div>
+                </div>
+                <div class="item nav-item d-flex flex-column align-items-center justify-content-center" data-id="5">
+                    <a class="d-flex flex-column align-items-center justify-content-center text-white" id="down" download>
+                        <i class="fa-solid fa-upload fx-3 mb-1"></i>
+                        <div class="fx-n3">다운로드</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="area">
+            <div class="canvas w-100 h-100" id="content">
+                <div class="item-center bg-white canvas-item" style="width: 1300px; height: 700px;">
+                    <img class="w-100 h-100">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        class Drow {
+            constructor() {
+                this.activeItem = null;
+                this.fileName;
+                
+                this.event();
+            }
+
+            getStyleProperty(elem, key) {
+                return parseInt(getComputedStyle(elem)[key].replace(/[^0-9.\-]/g, ""));
+            }
+
+            event() {
+
+                $("#file").on("change", e => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    this.fileName = file.name;
+                    reader.readAsDataURL(file);
+                    reader.onload = (e) => {
+                        $("img")[0].src = e.target.result;
+                    }
+                })
+
+                $(".aside-nav").on("click", ".item", e => {
+                    this.activeItem = e.currentTarget.dataset.id;
+                    if(this.activeItem == 1) {
+                        document.querySelectorAll("#content > .textbox").forEach(item => {
+                            item.remove();
+                        })
+                    } else if(this.activeItem == 3) {
+                        document.querySelector("#content img").remove();
+                        let dom = document.createElement("img");
+                        dom.classList.add("w-100");
+                        dom.classList.add("h-100");
+                        document.querySelector("#content > .canvas-item").append(dom);
+                    }
+                })
+
+                $("#content").on('click', e => {
+                    if(this.activeItem != 4) return;
+                    if($(".textbox.textedit").length > 0) return;
+
+                    // iframe 내부의 스크롤 고려한 클라이언트 좌표 계산
+                    let iframeX = (e.clientX);
+                    let iframeY = (e.clientY);
+
+                    // 새로운 div 요소 생성
+                    let newDiv = document.createElement('div');
+                    // div 요소 스타일 설정
+                    newDiv.classList.add("textbox");
+                    newDiv.classList.add("textedit");
+                    newDiv.style.position = 'absolute';
+                    newDiv.setAttribute("contenteditable", "true");
+                    // 계산된 좌표를 사용하여 위치 설정
+                    newDiv.style.left = (iframeX) -70 + 'px'; // 500 -> 500
+                    newDiv.style.top = (iframeY) - 65 + 'px';
+
+                    // 생성한 div 요소를 iframe 내부에 추가
+                    $("#content").append(newDiv);
+                    newDiv.focus();
+                    $(newDiv).on("focusout", e => {
+                        newDiv.setAttribute("contenteditable", "false");
+                        setTimeout(() => {
+                            newDiv.classList.remove("textedit");
+                        }, 100);
+                    })
+                });
+
+                let start = {x:0, y:0};
+                let target = null
+                let draging = false;
+                $(window).on("mousedown", e => {
+                    if(this.activeItem != 5) return;
+                    e.preventDefault();
+                    if(draging) return;
+
+                    if(!e.target.classList.contains("textbox")) {
+                        target.classList.remove("moveEdit");
+                        return;
+                    }
+
+                    if($(".moveEdit").length > 0) {
+                        $(".moveEdit")[0].classList.remove("moveEdit");
+                    }
+
+                    target = e.target;
+                    target.classList.add("moveEdit");
+
+                    let top = target.style.top.split("px")[0] * 1;
+                    let left = target.style.left.split("px")[0] * 1;
+
+                    start = {x:e.pageX - left, y:e.pageY - top};
+                    draging = true;
+                });
+
+                $(window).on("mousemove", e => {
+                    if(!draging) return;
+                    console.log(target);
+                    $(target).css({
+                        top: e.pageY - start.y + "px",
+                        left: e.pageX - start.x + "px"
+                    })
+                })
+
+                $(window).on("mouseup", e => {
+                    draging = false;
+                })   
+
+
+                $(window).on("keydown", e => {
+                    if($(".moveEdit").length < 1) return;
+                    console.log(e);
+                    if(e.ctrlKey && e.key === "ArrowRight") {
+                        let rotate = $(".moveEdit")[0].dataset.rotate ? $(".moveEdit")[0].dataset.rotate * 1 : 0;
+                        $(".moveEdit").css({
+                            transform: `rotate(${rotate + 90}deg)`
+                        })
+                        $(".moveEdit")[0].dataset.rotate = rotate + 90;
+                    } else if(e.ctrlKey && e.key === "ArrowLeft") {
+                        let rotate = $(".moveEdit")[0].dataset.rotate ? $(".moveEdit")[0].dataset.rotate * 1 : 0;
+                        $(".moveEdit").css({
+                            transform: `rotate(${rotate - 90}deg)`
+                        })
+                        $(".moveEdit")[0].dataset.rotate = rotate - 90;
+                    } else if(e.key === "ArrowRight") {
+                        let left = $(".moveEdit")[0].style.left.split("px")[0] * 1;
+                        $(".moveEdit").css({
+                            left: `${left + 10}px`
+                        })
+                    } else if(e.key === "ArrowLeft") {
+                        let left = $(".moveEdit")[0].style.left.split("px")[0] * 1;
+                        $(".moveEdit").css({
+                            left: `${left - 10}px`
+                        })
+                    } else if(e.key === "ArrowUp") {
+                        let top = $(".moveEdit")[0].style.top.split("px")[0] * 1;
+                        $(".moveEdit").css({
+                            top: `${top - 10}px`
+                        })
+                    } else if(e.key === "ArrowDown") {
+                        let top = $(".moveEdit")[0].style.top.split("px")[0] * 1;
+                        $(".moveEdit").css({
+                            top: `${top + 10}px`
+                        })
+                    }
+                })
+            }
+
+            drowcanvas() {
+                let canvas = document.createElement("canvas");
+                let img = document.querySelector("#content img");
+                canvas.setAttribute("width", "1300px");
+                canvas.setAttribute("height", "700px");
+                let ctx = canvas.getContext("2d");
+
+                ctx.clearRect(0, 0, 1300, 700);
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, 1300, 700);
+                ctx.drawImage(img, 0, 0, 1300, 700);
+
+                let rcanvas = document.createElement("canvas");
+                let rctx = canvas.getContext("2d");
+
+                document.querySelectorAll("#content > .textbox").forEach(item => {
+                    
+                    rcanvas.width = canvas.width;
+                    rcanvas.height = canvas.height;
+
+                    const rotate = parseInt(item.style.transform.replace(
+                        /rotate\(([0-9]+)deg\)/,
+                        (matched, group1) => group1,
+                    ));
+
+                    const left = this.getStyleProperty(item, "left") - 275;
+                    const top = this.getStyleProperty(item, "top") - 94;
+                    const width = this.getStyleProperty(item, "width");
+                    const height = this.getStyleProperty(item, "height");
+                    const centerX = left + width / 2;
+                    const centerY = top + height / 2;
+
+                    rctx.font = getComputedStyle(item).font;
+                    
+                    rctx.fillStyle = "black";
+
+                    rctx.translate(centerX, centerY);
+                    rctx.rotate((rotate * Math.PI) / 180); // PI 단위로 넣어야 해서 변환
+                    rctx.translate(-centerX, -centerY);
+
+                    rctx.fillText(item.innerText, left, top + height - 4);
+
+                    rctx.translate(centerX, centerY);
+                    rctx.rotate((-rotate * Math.PI) / 180);
+                    rctx.translate(-centerX, -centerY);
+                });
+
+                ctx.drawImage(rcanvas, 0, 0);
+
+                let src = canvas.toDataURL("image/jpeg");
+                $("#down")[0].setAttribute("href", src);
+                $("#down")[0].setAttribute("download", this.fileName);
+
+                document.querySelectorAll("#content > .textbox").forEach(item => {
+                    item.remove();
+                })
+                $("img")[0].src = src;
+            }
+        }
+
+        window.app = new Drow();
+    </script>
+</body>
+</html>

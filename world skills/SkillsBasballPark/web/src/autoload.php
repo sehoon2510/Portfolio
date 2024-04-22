@@ -1,6 +1,9 @@
 <?php
-    function classLoader($c) {
-        require SRC . "/$c.php";
+    function classautoload($name) {
+        $filePath = SRC . "/$name.php";
+        if(is_file($filePath)) {
+            require $filePath;
+        }
     }
 
-    spl_autoload_register("classLoader");
+    spl_autoload_register("classautoload");
