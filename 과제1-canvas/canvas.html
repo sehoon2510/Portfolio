@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.7.1.min.js"></script>
+    <style>
+        * {margin: 0; padding: 0;}
+        div {width: 750px; height: 750px; position: relative; margin: 50px auto;}
+        canvas {border: 1px solid #ccc; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+    </style>
+</head>
+<body>
+    <div>
+        <canvas width="750" height="750"></canvas>
+    </div>
+    <div>
+        <button id="addCircle">원 추가</button>
+        <button id="addSquare">사각형 추가</button>
+        <button id="addTriangle">삼각형 추가</button>
+        <button id="addPentagon">오각형 추가</button>
+        <button id="delete">삭제</button>
+        <button id="reset">초기화</button>
+        <input type="color" id="color">
+    </div>
+    <script>
+        const canvas = document.querySelector("canvas");
+        const drowCircle = document.querySelector("#addCircle");
+        const drowSquare = document.querySelector("#addSquare");
+        const drowTriangle = document.querySelector("#addTriangle");
+        const drowPentagon = document.querySelector("#addPentagon");
+        const Delete = document.querySelector("#delete");
+        const Color = document.querySelector("#color");
+        const Reset = document.querySelector("#reset");
+        
+        let elementArr = [];
+        let target = null;
+
+        const ctx = canvas.getContext("2d");
+
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+
+        drowSquare.addEventListener("click", Squaredrow);
+        drowCircle.addEventListener("click", Circledrow);
+        drowTriangle.addEventListener("click", Triangledrow);
+        drowPentagon.addEventListener("click", Pentagondrow);
+
+        Reset.addEventListener("click", e => {
+            elementArr = [];
+            redrow(elementArr);
+        })
+
+        Delete.addEventListener("click", e => {
+            if(!target) return;
+            elementArr = elementArr.filter(item => target.x != item.x || target.y != item.y || target.w != item.w || target.h != item.h);
+            target = null;
+            redrow(elementArr);
+
+        })
+
+        Color.addEventListener("change", e => {
+            if(!target) return;
+            elementArr = elementArr.map(item => {
+                if(target.x == item.x && target.y == item.y && target.w == item.w && target.h == item.h) return {...item, c: e.target.value};
+                else return {...item};
+            });
+            redrow(elementArr);
+        })
+
+        function redrow(arr) {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            arr.forEach(element => {
+                ctx.fillStyle = element.c;
+                if(element.t == "square") ctx.fillRect(element.x, element.y, element.w, element.h);
+                else if(element.t == "circle") {
+                    ctx.beginPath();
+                    ctx.arc(element.x + (element.w / 2), element.y + (element.h / 2), 30, 0, Math.PI * 2, false);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (element.t == "Triangle") {
+                    ctx.beginPath();
+                    ctx.moveTo(element.x + 50, element.y);
+                    ctx.lineTo((element.x + 50) + 50, element.y + 100);
+                    ctx.lineTo((element.x + 50) - 50, element.y + 100); 
+                    ctx.closePath();
+                    ctx.fill();
+                } else if(element.t == "Pentagon") {
+                    ctx.beginPath();
+                    ctx.moveTo(element.x + 80, element.y);
+                    ctx.lineTo((element.x + 80) + 80, element.y + 80);
+                    ctx.lineTo((element.x + 80) + 40, element.y + 160);
+                    ctx.lineTo((element.x + 80) - 40, element.y + 160);
+                    ctx.lineTo((element.x + 80) - 80, element.y + 80);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            });
+        }
+
+        function Squaredrow() {
+            const x = Math.floor(Math.random() * 750);
+            const y = Math.floor(Math.random() * 750);
+            ctx.fillStyle = "#1f4f7e";
+            
+            ctx.fillRect(x, y, 100, 100);
+
+            elementArr.push({"x": x, "y": y, "w": 100, "h": 100, "t": "square", "c": "#1f4f7e"});
+        }
+        
+        function Circledrow() {
+            const x = Math.floor(Math.random() * 750);
+            const y = Math.floor(Math.random() * 750);
+            ctx.fillStyle = "#1f4f7e";
+
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2, false);
+            ctx.closePath();
+
+            ctx.fill();
+
+            elementArr.push({"x": x - 30, "y": y - 30, "w": 60, "h": 60, "t": "circle", "c": "#1f4f7e"});
+        }
+        
+        function Triangledrow() {
+            const x = Math.floor(Math.random() * 750);
+            const y = Math.floor(Math.random() * 750);
+            ctx.fillStyle = "#1f4f7e";
+
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 50, y + 100);
+            ctx.lineTo(x - 50, y + 100);
+            ctx.closePath();
+
+            ctx.fill();
+
+            elementArr.push({"x": x - 50, "y": y, "w": 100, "h": 100, "t": "Triangle", "c": "#1f4f7e"});
+        }
+        
+        function Pentagondrow() {
+            const x = Math.floor(Math.random() * 750);
+            const y = Math.floor(Math.random() * 750);
+            ctx.fillStyle = "#1f4f7e";
+
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 80, y + 80);
+            ctx.lineTo(x + 40, y + 160);
+            ctx.lineTo(x - 40, y + 160);
+            ctx.lineTo(x - 80, y + 80);
+            ctx.closePath();
+
+            ctx.fill();
+
+            elementArr.push({"x": x - 80, "y": y, "w": 160, "h": 160, "t": "Pentagon", "c": "#1f4f7e"});
+        }
+
+        canvas.addEventListener("click", e => {
+            if(target) {
+                target = null;
+                redrow(elementArr);
+            }
+            let find = elementArr.find(item => (e.clientX - 576.5) > item.x && (item.x + item.w) > (e.clientX - 576.5) && (e.clientY - 50) > item.y && (item.y + item.h) > (e.clientY - 50));
+            if(find) {
+                ctx.lineWidth = 1;
+
+                if(find.t == "square") {
+                    ctx.strokeRect(find.x - 0.5, find.y - 0.5, find.w, find.h);
+                } else if(find.t == "circle") {
+                    ctx.beginPath();
+                    ctx.arc(find.x + 30, find.y + 30, 31, 0, Math.PI * 2, false);
+                    ctx.closePath();
+                    ctx.stroke();
+                } else if(find.t == "Triangle") {
+                    ctx.beginPath();
+                    ctx.moveTo(find.x + 50, find.y - 0.5);
+                    ctx.lineTo((find.x + 50) + 50 + 0.5, find.y + 100 + 0.5);
+                    ctx.lineTo((find.x + 50) - 50 - 0.5, find.y + 100 + 0.5);
+                    ctx.closePath();
+                    ctx.stroke();
+                } else if(find.t == "Pentagon"){
+                    ctx.beginPath();
+                    ctx.moveTo(find.x + 80, find.y);
+                    ctx.lineTo((find.x + 80) + 80 + 0.5, find.y + 80 - 0.5);
+                    ctx.lineTo((find.x + 80) + 40 + 0.5, find.y + 160 + 0.5);
+                    ctx.lineTo((find.x + 80) - 40 - 0.5, find.y + 160 + 0.5);
+                    ctx.lineTo((find.x + 80) - 80 - 0.5, find.y + 80 - 0.5);
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+
+                Color.value = find.c;
+                target = find;
+            }
+        })        
+    </script>
+</body>
+</html>
